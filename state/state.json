@@ -1,16 +1,16 @@
 {
   "date": "2026-08-31",
-  "requests_today": 17,
+  "requests_today": 19,
   "warned_today": false,
   "fixtures": {
     "1550103": {
       "notified": [
+        "23|None|Goal|Normal Goal|249|497",
         "9|None|Card|Yellow Card|249|497",
         "4|None|Goal|Normal Goal|249|497",
-        "23|None|Goal|Normal Goal|249|497",
         "25|None|Goal|Normal Goal|323936|497"
       ],
-      "last_seen": 1788196290.2927942
+      "last_seen": 1788196869.7913866
     }
   }
 }
