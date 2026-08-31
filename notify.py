@@ -198,10 +198,11 @@ def event_signature(event):
 
 
 def format_event_message(fixture, event):
-    """Messaggio su 3 righe:
+    """Messaggio su 4 righe:
     1) riga di intestazione (squadre/punteggio/minuto) in monospace piccolo
     2) riga con emoji + titolo evento, in testo normale
-    3) riga di dettaglio (giocatore/assist/decisione) in monospace piccolo
+    3) un trattino "-" separatore, in testo normale
+    4) riga di dettaglio (giocatore/assist/decisione), in testo normale
     """
     teams = fixture.get("teams", {})
     home = html.escape(teams.get("home", {}).get("name", "?"))
@@ -253,9 +254,8 @@ def format_event_message(fixture, event):
 
     top_line = f"<code>{home} {score} {away} ({minute_str})</code>"
     middle_line = middle
-    bottom_line = f"<code>{bottom}</code>"
 
-    return f"{top_line}\n{middle_line}\n{bottom_line}"
+    return f"{top_line}\n{middle_line}\n-\n{bottom}"
 
 
 def process_fixture(fixture, state):
