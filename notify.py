@@ -12,6 +12,7 @@ Ha un "paracadute" sulla quota giornaliera gratuita di API-Football (100 richies
 se ci si avvicina al limite, si ferma da solo e avvisa su Telegram invece di sforare.
 """
 
+import html
 import json
 import os
 import sys
@@ -197,9 +198,14 @@ def event_signature(event):
 
 
 def format_event_message(fixture, event):
+    """Messaggio su 3 righe:
+    1) riga di intestazione (squadre/punteggio/minuto) in monospace piccolo
+    2) riga con emoji + titolo evento, in testo normale
+    3) riga di dettaglio (giocatore/assist/decisione) in monospace piccolo
+    """
     teams = fixture.get("teams", {})
-    home = teams.get("home", {}).get("name", "?")
-    away = teams.get("away", {}).get("name", "?")
+    home = html.escape(teams.get("home", {}).get("name", "?"))
+    away = html.escape(teams.get("away", {}).get("name", "?"))
     goals = fixture.get("goals", {})
     score = f"{goals.get('home', '?')}-{goals.get('away', '?')}"
 
@@ -209,10 +215,11 @@ def format_event_message(fixture, event):
     minute_str = f"{minute}'" + (f"+{extra}" if extra else "")
 
     ev_type = event.get("type", "")
-    detail = event.get("detail", "")
-    player = (event.get("player") or {}).get("name", "?")
+    detail = html.escape(event.get("detail", "") or "")
+    player = html.escape((event.get("player") or {}).get("name") or "?")
     assist = (event.get("assist") or {}).get("name")
-    team_name = (event.get("team") or {}).get("name", "?")
+    assist = html.escape(assist) if assist else None
+    team_name = html.escape((event.get("team") or {}).get("name", "?"))
 
     if ev_type == "Goal":
         emoji = "⚽"
@@ -221,21 +228,29 @@ def format_event_message(fixture, event):
             title = "AUTOGOL"
         elif "Penalty" in detail:
             title = "GOL su rigore"
-        line = f"{emoji} <b>{title}</b> - {team_name}\n{player}"
+        middle = f"{emoji} <b>{title}</b> - {team_name}"
+        bottom = player
         if assist:
-            line += f" (assist: {assist})"
+            bottom += f" (assist: {assist})"
     elif ev_type == "Card":
-        emoji = CARD_EMOJI.get(detail, "\U0001F7E8")
-        line = f"{emoji} <b>{detail}</b> - {team_name}\n{player}"
+        emoji = CARD_EMOJI.get(event.get("detail", ""), "\U0001F7E8")
+        middle = f"{emoji} <b>{detail}</b> - {team_name}"
+        bottom = player
     elif ev_type == "subst":
-        line = f"\U0001F504 <b>Sostituzione</b> - {team_name}\n{player} entra al posto di {assist or '?'}"
+        middle = f"\U0001F504 <b>Sostituzione</b> - {team_name}"
+        bottom = f"{player} entra al posto di {assist or '?'}"
     elif ev_type == "Var":
-        line = f"\U0001F4FA <b>VAR</b> - {detail}\n{team_name}"
+        middle = f"\U0001F4FA <b>VAR</b> - {team_name}"
+        bottom = detail
     else:
-        line = f"ℹ️ <b>{ev_type}</b> - {detail}\n{team_name} - {player}"
+        middle = f"ℹ️ <b>{html.escape(ev_type)}</b> - {team_name}"
+        bottom = f"{detail} - {player}"
 
-    header = f"<b>{home} {score} {away}</b> ({minute_str})"
-    return f"{header}\n{line}"
+    top_line = f"<code>{home} {score} {away} ({minute_str})</code>"
+    middle_line = middle
+    bottom_line = f"<code>{bottom}</code>"
+
+    return f"{top_line}\n{middle_line}\n{bottom_line}"
 
 
 def process_fixture(fixture, state):
