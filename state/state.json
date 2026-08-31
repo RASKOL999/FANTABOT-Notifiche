@@ -1,26 +1,28 @@
 {
   "date": "2026-08-31",
-  "requests_today": 31,
+  "requests_today": 33,
   "warned_today": false,
   "fixtures": {
     "1550103": {
       "notified": [
-        "67|None|subst|Substitution 3|22147|497",
         "72|None|subst|Substitution 4|6662|867",
+        "46|None|subst|Substitution 2|387537|867",
+        "9|None|Card|Yellow Card|249|497",
+        "65|None|Goal|Normal Goal|404097|497",
         "46|None|subst|Substitution 1|455316|867",
-        "72|None|subst|Substitution 5|334925|867",
         "60|None|subst|Substitution 1|349001|497",
         "23|None|Goal|Normal Goal|249|497",
-        "25|None|Goal|Normal Goal|323936|497",
+        "72|None|subst|Substitution 5|334925|867",
+        "67|None|subst|Substitution 3|22147|497",
         "4|None|Goal|Normal Goal|249|497",
-        "9|None|Card|Yellow Card|249|497",
-        "67|None|subst|Substitution 4|249|497",
-        "46|None|subst|Substitution 2|387537|867",
         "60|None|subst|Substitution 2|323936|497",
-        "65|None|Goal|Normal Goal|404097|497",
-        "54|None|subst|Substitution 3|120|867"
+        "25|None|Goal|Normal Goal|323936|497",
+        "67|None|subst|Substitution 4|249|497",
+        "54|None|subst|Substitution 3|120|867",
+        "84|None|subst|Substitution 5|875|497",
+        "90|None|Card|Yellow Card|46170|867"
       ],
-      "last_seen": 1788200491.60246
+      "last_seen": 1788201089.2456348
     }
   }
 }
