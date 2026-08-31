@@ -237,8 +237,13 @@ def format_event_message(fixture, event):
         middle = f"{emoji} <b>{detail}</b> - {team_name}"
         bottom = player
     elif ev_type == "subst":
+        # Attenzione: per gli eventi di tipo "subst", API-Football inverte
+        # l'uso consueto dei campi rispetto ai gol: qui "player" è il
+        # giocatore che ESCE dal campo, mentre "assist" è quello che ENTRA.
+        # Confermato da un test reale (la versione precedente li mostrava
+        # scambiati).
         middle = f"\U0001F504 <b>Sostituzione</b> - {team_name}"
-        bottom = f"{player} entra al posto di {assist or '?'}"
+        bottom = f"{assist or '?'} entra al posto di {player}"
     elif ev_type == "Var":
         middle = f"\U0001F4FA <b>VAR</b> - {team_name}"
         bottom = detail
