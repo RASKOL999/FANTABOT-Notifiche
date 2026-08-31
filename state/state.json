@@ -1,16 +1,18 @@
 {
   "date": "2026-08-31",
-  "requests_today": 23,
+  "requests_today": 25,
   "warned_today": false,
   "fixtures": {
     "1550103": {
       "notified": [
-        "23|None|Goal|Normal Goal|249|497",
-        "9|None|Card|Yellow Card|249|497",
         "4|None|Goal|Normal Goal|249|497",
-        "25|None|Goal|Normal Goal|323936|497"
+        "25|None|Goal|Normal Goal|323936|497",
+        "9|None|Card|Yellow Card|249|497",
+        "23|None|Goal|Normal Goal|249|497",
+        "46|None|subst|Substitution 1|455316|867",
+        "46|None|subst|Substitution 2|387537|867"
       ],
-      "last_seen": 1788198074.401833
+      "last_seen": 1788198680.217592
     }
   }
 }
