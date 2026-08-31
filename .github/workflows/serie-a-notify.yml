@@ -8,7 +8,7 @@ on:
   # numero del giorno mancante nell'ultimo campo, oppure lancia a mano con
   # "Run workflow" qui su GitHub Actions.
   schedule:
-    - cron: "*/15 10-22 * * *"
+    - cron: "*/10 10-22 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -39,15 +39,19 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python notify.py
-
+        
       - name: Salva lo stato aggiornato nel repo
         run: |
           git config user.name "fantacalcio-notifier-bot"
           git config user.email "actions@users.noreply.github.com"
           git add state/state.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Aggiorna stato notifiche [skip ci]"
-            git push
-          else
+          if git diff --cached --quiet; then
             echo "Nessuna modifica allo stato da salvare."
+          else
+            git commit -m "Aggiorna stato notifiche [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "Push fallito, ritento ($i)..."
+              sleep 5
+            done
           fi
